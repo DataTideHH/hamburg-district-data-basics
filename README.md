@@ -50,3 +50,47 @@ hamburg-district-data-basics/
 ├── LICENSE
 ├── README.md
 └── requirements.txt
+```
+
+## Run Environment Check
+
+```zsh
+python3 src/check_environment.py
+```
+
+Expected output:
+
+```text
+Hamburg District Data Basics
+Python version: ...
+Project scaffold is ready.
+```
+
+## Planned Workflow
+
+1. Select a small subset of Hamburg district indicators.
+2. Convert the source into a structured CSV table.
+3. Load the data with pandas.
+4. Run basic checks and descriptive analysis.
+5. Create first simple visualizations.
+6. Prepare the dataset for later Power BI usage.
+
+## What This Repository Demonstrates
+
+- Data source documentation
+- Reproducible project setup
+- Python environment basics
+- pandas-based data analysis preparation
+- Hamburg-focused Data/BI project planning
+
+## Next Steps
+
+- add first structured CSV extract
+- create first pandas analysis script
+- add basic charts
+- document first findings
+- optionally connect the prepared data to Power BI
+
+## License
+
+MIT License.
