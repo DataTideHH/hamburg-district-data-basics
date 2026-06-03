@@ -94,3 +94,53 @@ Project scaffold is ready.
 ## License
 
 MIT License.
+
+## First Analysis: Altona District Profiles 2024
+
+This repository now includes a first focused exploratory analysis of selected district profile indicators for the borough of Altona.
+
+The analysis uses a processed extract from the official Hamburg District Profiles 2024 and focuses on all districts within the borough of Altona.
+
+Included districts:
+
+- Altona-Altstadt
+- Sternschanze
+- Altona-Nord
+- Ottensen
+- Bahrenfeld
+- Groß Flottbek
+- Othmarschen
+- Lurup
+- Osdorf
+- Nienstedten
+- Blankenese
+- Iserbrook
+- Sülldorf
+- Rissen
+
+The first analysis includes:
+
+- a processed CSV dataset for Altona districts
+- a Python/pandas analysis script
+- four generated PNG figures
+- a short findings report
+
+Files:
+
+- `data/processed/altona_district_profiles_2024.csv`
+- `src/analyze_altona_profiles.py`
+- `reports/findings.md`
+- `reports/figures/population_by_district_altona_2024.png`
+- `reports/figures/population_density_by_district_altona_2024.png`
+- `reports/figures/private_cars_per_1000_altona_2024.png`
+- `reports/figures/income_vs_sgb2_share_altona_2024.png`
+
+Run the analysis:
+
+```zsh
+source .venv/bin/activate
+python src/analyze_altona_profiles.py
+```
+
+This first analysis is intentionally small. Its purpose is to demonstrate a clean Data/BI workflow: source documentation, structured CSV data, Python-based analysis, generated visualizations and short written findings.
+
