@@ -12,6 +12,15 @@ Source context:
 - Geographic scope: Hamburg
 - Current analysis scope: districts within the borough of Altona
 - Data granularity: Stadtteil / district level
+- Source file type: PDF
+
+Official source URL:
+
+    https://www.statistik-nord.de/fileadmin/user_upload/Stadtteil-Profile-HH_BJ-2024.pdf
+
+Access date for this repository documentation:
+
+    2026-06-08
 
 ## Processed Dataset
 
@@ -21,22 +30,15 @@ Current processed file:
 
 The file contains selected indicators for 14 Altona districts.
 
-Current columns:
+Current columns are documented in:
 
-- district
-- borough
-- population
-- area_km2
-- population_density
-- under_18_percent
-- over_64_percent
-- unemployment_share_percent_dec_2024
-- sgb2_share_percent_dec_2024
-- avg_income_per_taxpayer_2021_eur
-- general_practitioners_jan_2025
-- pharmacies_dec_2024
-- private_cars_per_1000_jan_2025
-- electric_cars_jan_2025
+    docs/data-dictionary.md
+
+## Source Coverage
+
+The official PDF covers Hamburg city districts across all boroughs.
+
+This repository currently uses only selected indicators for the Altona borough. The current project scope is intentionally limited in order to keep the first workflow readable and maintainable.
 
 ## Transformation Status
 
@@ -70,9 +72,11 @@ This matters because the dataset combines indicators from different reporting da
 
 ## Licensing and Reuse Notes
 
-Before adding larger raw files or redistributing full official source datasets, the exact source URL, publisher notice and reuse conditions should be checked and documented.
+The repository uses a compact processed extract for learning and portfolio documentation.
 
-This repository currently uses a compact processed extract for learning and portfolio documentation.
+Before adding larger raw files or redistributing full official source datasets, the exact publisher notice and reuse conditions should be checked again directly on the official source page or related Statistikamt Nord publication notes.
+
+The project therefore does not mirror the full PDF as a raw data file.
 
 ## Analytical Limitations
 
@@ -96,8 +100,7 @@ The dataset is useful for:
 
 Next source documentation improvements:
 
-1. Add exact source URL.
-2. Add source access date.
-3. Add publisher license or reuse statement.
-4. Add a data dictionary with original German indicator names.
-5. Add notes on manual extraction or transformation steps.
+1. Add a more detailed source retrieval note if additional indicators are extracted.
+2. Add all original German indicator labels for any expanded dataset.
+3. Add a full Hamburg-wide processed dataset later.
+4. Document Power BI data-model assumptions when a dashboard version is added.

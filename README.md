@@ -40,6 +40,10 @@ The source documentation is maintained in:
 
     docs/data-sources.md
 
+The data dictionary is maintained in:
+
+    docs/data-dictionary.md
+
 The processed analysis file is:
 
     data/processed/altona_district_profiles_2024.csv
@@ -100,6 +104,7 @@ The current workflow is:
     │   └── raw/
     │       └── .gitkeep
     ├── docs/
+    │   ├── data-dictionary.md
     │   └── data-sources.md
     ├── notebooks/
     │   └── README.md
@@ -169,8 +174,6 @@ The current dataset is small and limited to one Hamburg borough. Indicators shou
 
 Planned improvements:
 
-- document the exact official source URL and license details more explicitly
-- add a data dictionary for all columns
 - add a notebook version of the first analysis
 - extend the analysis to additional Hamburg boroughs
 - add population-density and social-indicator comparison charts
