@@ -1,104 +1,94 @@
-# First Findings: Altona District Profiles 2024
+# Findings: Altona District Profiles 2024
 
-This first analysis uses a small, focused extract from the official Hamburg District Profiles 2024.
+This report summarizes the first descriptive analysis of selected district profile indicators for the borough of Altona, Hamburg.
 
-Source: Statistikamt Nord / Hamburger Stadtteil-Profile, Berichtsjahr 2024  
-Scope: Districts within the borough of Altona  
-Unit of analysis: Hamburg district / Stadtteil
+## Scope
 
-## Dataset
+The analysis covers 14 districts in the borough of Altona.
 
-The processed dataset contains 14 districts in the borough of Altona:
+The processed dataset is:
 
-- Altona-Altstadt
-- Sternschanze
-- Altona-Nord
-- Ottensen
-- Bahrenfeld
-- Groß Flottbek
-- Othmarschen
-- Lurup
-- Osdorf
-- Nienstedten
-- Blankenese
-- Iserbrook
-- Sülldorf
-- Rissen
+    data/processed/altona_district_profiles_2024.csv
 
-The selected indicators cover population, area, population density, age structure, unemployment, SGB II share, average income, basic health infrastructure, private car density and electric cars.
+The analysis is descriptive. It compares selected indicators across districts and does not make causal claims.
 
-## Initial Observations
+## Dataset Summary
 
-### 1. Population is concentrated in a few large districts
+- Number of districts: 14
+- Total population in the processed dataset: 281,136
+- Total area in the processed dataset: 77.8 km²
+- Population-weighted average density: 3,614 residents per km²
 
-The largest districts in this sample are:
+## Population
 
-- Lurup: 37,755 residents
-- Ottensen: 35,925 residents
-- Bahrenfeld: 31,051 residents
-- Altona-Altstadt: 29,680 residents
-- Altona-Nord: 26,777 residents
+The largest district by population is **Lurup** with 37,755 residents.
 
-This already shows that Altona is not one homogeneous urban area. It contains dense inner-city districts, residential western districts and large population centres such as Lurup.
+The smallest district by population is **Nienstedten** with 7,062 residents.
 
-### 2. Population density clearly separates inner-city districts from western districts
+This shows that district size within the same borough varies considerably. For reporting and dashboard work, absolute values should therefore be interpreted alongside ratios such as population density or shares.
 
-The highest population densities are found in:
+## Population Density
 
-- Sternschanze: 15,338 residents per km²
-- Ottensen: 12,830 residents per km²
-- Altona-Nord: 12,171 residents per km²
-- Altona-Altstadt: 10,993 residents per km²
+The highest population density is found in **Sternschanze** with 15,338 residents per km².
 
-By contrast, western districts such as Rissen, Nienstedten and Blankenese have much lower population densities.
+The lowest population density is found in **Rissen** with 984 residents per km².
 
-### 3. Car density is much higher in the western districts
+This is one of the clearest structural differences inside Altona: compact inner-city districts and lower-density western districts represent very different urban contexts.
 
-The highest numbers of private cars per 1,000 residents are found in:
+## Income and Social Indicators
 
-- Nienstedten: 502
-- Blankenese: 489
-- Rissen: 425
-- Othmarschen: 415
-- Groß Flottbek: 414
+The highest average income per taxpayer is shown for **Nienstedten** with 168,404 EUR.
 
-The lowest values appear in the dense inner-city districts such as Sternschanze, Altona-Nord and Altona-Altstadt.
+The lowest average income per taxpayer is shown for **Lurup** with 35,445 EUR.
 
-### 4. Social indicators differ strongly across the borough
+The highest unemployment share is shown for **Lurup** with 8.5 percent.
 
-The highest SGB II shares in this sample are found in:
+The lowest unemployment share is shown for **Nienstedten** with 2.4 percent.
 
-- Lurup: 14.7 %
-- Bahrenfeld: 12.1 %
-- Altona-Altstadt: 11.4 %
-- Osdorf: 11.2 %
-- Altona-Nord: 9.6 %
+The highest SGB II share is shown for **Lurup** with 14.7 percent.
 
-The lowest values are found in Nienstedten, Groß Flottbek, Blankenese and Othmarschen.
+The lowest SGB II share is shown for **Nienstedten** with 1.0 percent.
 
-### 5. Income and SGB II share show a visible contrast
+In this small dataset, average income is negatively correlated with SGB II share (-0.86) and with unemployment share (-0.91). This is a descriptive relationship only and should not be interpreted as causal.
 
-The highest average incomes per taxpayer are found in:
+## Mobility Indicators
 
-- Nienstedten
-- Blankenese
-- Groß Flottbek
-- Othmarschen
+The highest number of private cars per 1,000 residents is shown for **Nienstedten** with 502 cars per 1,000 residents.
 
-These districts also show comparatively low SGB II shares. This is a useful starting point for a later Power BI dashboard because the contrast can be explained with simple KPI cards, rankings and scatter plots.
+The lowest number of private cars per 1,000 residents is shown for **Sternschanze** with 186 cars per 1,000 residents.
+
+The highest absolute number of electric cars is shown for **Othmarschen** with 1,371 electric cars.
+
+These mobility indicators should be interpreted carefully. District density, household structure, income levels, public transport access and land-use patterns may all influence car ownership.
 
 ## Generated Figures
 
-The script `src/analyze_altona_profiles.py` creates the following figures:
+The current analysis includes the following generated charts:
 
-- `reports/figures/population_by_district_altona_2024.png`
-- `reports/figures/population_density_by_district_altona_2024.png`
-- `reports/figures/private_cars_per_1000_altona_2024.png`
-- `reports/figures/income_vs_sgb2_share_altona_2024.png`
+- reports/figures/population_by_district_altona_2024.png
+- reports/figures/population_density_by_district_altona_2024.png
+- reports/figures/income_vs_sgb2_share_altona_2024.png
+- reports/figures/private_cars_per_1000_altona_2024.png
+
+## Interpretation Limits
+
+This analysis is a first descriptive portfolio workflow.
+
+Important limitations:
+
+- The dataset covers only one Hamburg borough.
+- The number of observations is small.
+- Indicators refer to different reporting dates.
+- Some indicators are absolute counts, while others are rates or ratios.
+- The analysis does not control for demographic structure, housing, land use or transport access.
+- Correlations in this dataset are descriptive and not causal.
 
 ## Next Steps
 
-- Add a short data source note in `docs/data-sources.md`.
-- Extend the analysis with Power BI-ready notes.
-- Build a small Power BI dashboard with district slicers, KPI cards and rankings.
-- Add a short methodological note explaining that this is a focused Altona extract, not a full Hamburg-wide analysis.
+Useful next improvements:
+
+1. Add a data dictionary with original German indicator names.
+2. Add exact official source URL and access date.
+3. Extend the dataset to all Hamburg boroughs.
+4. Add population density and social indicator comparison charts.
+5. Prepare a Power BI version with a simple star-schema-style model.

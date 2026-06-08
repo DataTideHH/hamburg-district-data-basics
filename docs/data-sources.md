@@ -1,75 +1,103 @@
 # Data Sources
 
-## Primary planned source
+## Main Source
 
-**Hamburger Stadtteil-Profile: Berichtsjahr 2024**
-Publisher: Statistikamt Nord
-Source URL: https://www.statistik-nord.de/fileadmin/user_upload/Stadtteil-Profile-HH_BJ-2024.pdf
-
-## Notes
-
-This repository does not currently include raw source data.
-
-The first implementation step will be to extract a small, clearly documented subset of indicators from the public source into a structured CSV file.
-
-Planned initial indicators may include:
-
-- district name
-- borough
-- population
-- share of people under 18
-- share of people aged 65 and older
-- share of foreign residents
-- unemployment rate
-- income indicators where available
-
-## Data handling decision
-
-Raw source files are not committed by default.
-
-Small derived CSV files may be committed later if they are clearly documented and suitable for reproducible learning purposes.
-
-## Hamburg District Profiles 2024 — Altona Extract
-
-This project uses a manually curated processed extract from the official Hamburg District Profiles 2024.
+This project uses a processed extract from the official Hamburg district profile data.
 
 Source context:
 
-- Publisher: Statistikamt Nord
-- Dataset: Hamburger Stadtteil-Profile
+- Title: Hamburger Stadtteil-Profile
 - Reporting year: 2024
-- Unit of analysis: Hamburg district / Stadtteil
-- Current project scope: districts within the borough of Altona
+- Publisher: Statistikamt Nord
+- Geographic scope: Hamburg
+- Current analysis scope: districts within the borough of Altona
+- Data granularity: Stadtteil / district level
 
-Processed file:
+## Processed Dataset
 
-```text
-data/processed/altona_district_profiles_2024.csv
-```
+Current processed file:
 
-The processed dataset is intentionally small and focused. It is used for a first reproducible portfolio analysis with Python, pandas, matplotlib and written findings.
+    data/processed/altona_district_profiles_2024.csv
 
-Selected districts:
+The file contains selected indicators for 14 Altona districts.
 
-- Altona-Altstadt
-- Sternschanze
-- Altona-Nord
-- Ottensen
-- Bahrenfeld
-- Groß Flottbek
-- Othmarschen
-- Lurup
-- Osdorf
-- Nienstedten
-- Blankenese
-- Iserbrook
-- Sülldorf
-- Rissen
+Current columns:
 
-Notes:
+- district
+- borough
+- population
+- area_km2
+- population_density
+- under_18_percent
+- over_64_percent
+- unemployment_share_percent_dec_2024
+- sgb2_share_percent_dec_2024
+- avg_income_per_taxpayer_2021_eur
+- general_practitioners_jan_2025
+- pharmacies_dec_2024
+- private_cars_per_1000_jan_2025
+- electric_cars_jan_2025
 
-- The current CSV is a processed analysis extract, not the full official source dataset.
-- The extract is intended for a first portfolio-ready exploratory analysis.
-- The original source should be cited when reusing or extending the dataset.
-- Future work can extend the analysis with additional indicators, borough-level context and a Power BI model.
+## Transformation Status
 
+The current dataset is a processed analysis extract, not a full raw source mirror.
+
+The project currently focuses on a small, readable CSV file that supports a first reproducible analysis workflow.
+
+Current transformation principles:
+
+- use clear English column names
+- keep units in column names where useful
+- keep reporting dates in column names when indicators refer to different years or months
+- avoid publishing unnecessary raw source material
+- document interpretation limits directly in the repository
+
+## Time References
+
+The indicators do not all refer to the same point in time.
+
+Examples:
+
+- district profiles: reporting year 2024
+- unemployment share: December 2024
+- SGB II share: December 2024
+- average income per taxpayer: 2021
+- general practitioners: January 2025
+- pharmacies: December 2024
+- private cars and electric cars: January 2025
+
+This matters because the dataset combines indicators from different reporting dates.
+
+## Licensing and Reuse Notes
+
+Before adding larger raw files or redistributing full official source datasets, the exact source URL, publisher notice and reuse conditions should be checked and documented.
+
+This repository currently uses a compact processed extract for learning and portfolio documentation.
+
+## Analytical Limitations
+
+The current dataset supports descriptive comparison only.
+
+It should not be used for causal statements such as:
+
+- income causes lower unemployment
+- car ownership causes specific social outcomes
+- density directly explains social structure
+
+The dataset is useful for:
+
+- descriptive comparison
+- first ranking tables
+- chart generation
+- data-cleaning practice
+- preparing later dashboard work
+
+## Planned Improvements
+
+Next source documentation improvements:
+
+1. Add exact source URL.
+2. Add source access date.
+3. Add publisher license or reuse statement.
+4. Add a data dictionary with original German indicator names.
+5. Add notes on manual extraction or transformation steps.
