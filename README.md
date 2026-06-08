@@ -105,7 +105,8 @@ The current workflow is:
     │       └── .gitkeep
     ├── docs/
     │   ├── data-dictionary.md
-    │   └── data-sources.md
+    │   ├── data-sources.md
+    │   └── power-bi-dashboard-plan.md
     ├── notebooks/
     │   ├── 01_altona_district_profiles_2024.ipynb
     │   └── README.md
@@ -157,6 +158,10 @@ The written findings are documented in:
 The notebook-based exploration is available in:
 
     notebooks/01_altona_district_profiles_2024.ipynb
+
+The planned Power BI dashboard structure is documented in:
+
+    docs/power-bi-dashboard-plan.md
 
 ## What This Demonstrates
 
