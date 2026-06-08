@@ -107,6 +107,7 @@ The current workflow is:
     │   ├── data-dictionary.md
     │   └── data-sources.md
     ├── notebooks/
+    │   ├── 01_altona_district_profiles_2024.ipynb
     │   └── README.md
     ├── reports/
     │   ├── findings.md
@@ -153,6 +154,10 @@ The written findings are documented in:
 
     reports/findings.md
 
+The notebook-based exploration is available in:
+
+    notebooks/01_altona_district_profiles_2024.ipynb
+
 ## What This Demonstrates
 
 This project demonstrates a practical early-stage Data/BI workflow:
@@ -174,7 +179,6 @@ The current dataset is small and limited to one Hamburg borough. Indicators shou
 
 Planned improvements:
 
-- add a notebook version of the first analysis
 - extend the analysis to additional Hamburg boroughs
 - add population-density and social-indicator comparison charts
 - prepare a later Power BI version with a clean data model
