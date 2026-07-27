@@ -2,105 +2,67 @@
 
 ## Main Source
 
-This project uses a processed extract from the official Hamburg district profile data.
+This project uses a processed extract from the official Hamburg district-profile publication.
 
-Source context:
-
-- Title: Hamburger Stadtteil-Profile
-- Reporting year: 2024
-- Publisher: Statistikamt Nord
-- Geographic scope: Hamburg
-- Current analysis scope: districts within the borough of Altona
-- Data granularity: Stadtteil / district level
-- Source file type: PDF
-
-Official source URL:
-
-    https://www.statistik-nord.de/fileadmin/user_upload/Stadtteil-Profile-HH_BJ-2024.pdf
-
-Access date for this repository documentation:
-
-    2026-06-08
+| Item | Value |
+|---|---|
+| Title | Hamburger Stadtteil-Profile |
+| Reporting edition | 2024 |
+| Publisher | Statistikamt Nord |
+| Geographic scope | Hamburg |
+| Current analysis scope | Districts within the borough of Altona |
+| Data grain | One row per Stadtteil / district |
+| Source format | PDF |
+| Official source | https://www.statistik-nord.de/fileadmin/user_upload/Stadtteil-Profile-HH_BJ-2024.pdf |
+| Documentation access date | 2026-06-08 |
 
 ## Processed Dataset
 
 Current processed file:
 
-    data/processed/altona_district_profiles_2024.csv
+```text
+data/processed/altona_district_profiles_2024.csv
+```
 
-The file contains selected indicators for 14 Altona districts.
+The file contains selected indicators for 14 Altona districts. It is a compact analysis extract, not a complete mirror of the source publication.
 
-Current columns are documented in:
+Supporting documentation:
 
-    docs/data-dictionary.md
+- [`data-dictionary.md`](data-dictionary.md)
+- [`extraction-method.md`](extraction-method.md)
+- [`data-lineage.csv`](data-lineage.csv)
 
-## Source Coverage
-
-The official PDF covers Hamburg city districts across all boroughs.
-
-This repository currently uses only selected indicators for the Altona borough. The current project scope is intentionally limited in order to keep the first workflow readable and maintainable.
-
-## Transformation Status
-
-The current dataset is a processed analysis extract, not a full raw source mirror.
-
-The project currently focuses on a small, readable CSV file that supports a first reproducible analysis workflow.
-
-Current transformation principles:
-
-- use clear English column names
-- keep units in column names where useful
-- keep reporting dates in column names when indicators refer to different years or months
-- avoid publishing unnecessary raw source material
-- document interpretation limits directly in the repository
-
-## Time References
+## Reporting Periods
 
 The indicators do not all refer to the same point in time.
 
-Examples:
+| Indicator group | Reporting period |
+|---|---|
+| District profile population, area and age structure | 2024 profile edition |
+| Unemployment share | December 2024 |
+| SGB II share | December 2024 |
+| Average income per taxpayer | 2021 |
+| General practitioners | January 2025 |
+| Pharmacies | December 2024 |
+| Private cars and electric cars | January 2025 |
 
-- district profiles: reporting year 2024
-- unemployment share: December 2024
-- SGB II share: December 2024
-- average income per taxpayer: 2021
-- general practitioners: January 2025
-- pharmacies: December 2024
-- private cars and electric cars: January 2025
+The processed extract must therefore not be described as a single-date snapshot.
 
-This matters because the dataset combines indicators from different reporting dates.
+## Transformation Boundary
 
-## Licensing and Reuse Notes
+The repository:
 
-The repository uses a compact processed extract for learning and portfolio documentation.
+- retains the district-level grain
+- uses clear English technical column names
+- includes units or reporting dates in column names where material
+- preserves the published values without modelling missing denominators
+- does not infer causal relationships
+- does not redistribute the complete source PDF
 
-Before adding larger raw files or redistributing full official source datasets, the exact publisher notice and reuse conditions should be checked again directly on the official source page or related Statistikamt Nord publication notes.
+The validation layer checks schema, domains and selected cross-field consistency. It does not replace source-value verification against the official publication.
 
-The project therefore does not mirror the full PDF as a raw data file.
+## Reuse and Licensing
 
-## Analytical Limitations
+The repository's MIT License applies to original code and documentation.
 
-The current dataset supports descriptive comparison only.
-
-It should not be used for causal statements such as:
-
-- income causes lower unemployment
-- car ownership causes specific social outcomes
-- density directly explains social structure
-
-The dataset is useful for:
-
-- descriptive comparison
-- first ranking tables
-- chart generation
-- data-cleaning practice
-- preparing later dashboard work
-
-## Planned Improvements
-
-Next source documentation improvements:
-
-1. Add a more detailed source retrieval note if additional indicators are extracted.
-2. Add all original German indicator labels for any expanded dataset.
-3. Add a full Hamburg-wide processed dataset later.
-4. Document Power BI data-model assumptions when a dashboard version is added.
+The processed extract is derived from the cited official publication. Source data, publisher content and attribution remain subject to the publisher's applicable terms. Before expanding or redistributing larger source extracts, the relevant publisher notice and reuse conditions should be checked again.
