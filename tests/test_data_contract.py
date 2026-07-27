@@ -53,6 +53,11 @@ class DatasetContractTests(unittest.TestCase):
         with self.assertRaisesRegex(DatasetValidationError, "unexpected columns"):
             validate_dataset(invalid)
 
+    def test_missing_district_column_returns_contract_error(self) -> None:
+        invalid = self.df.drop(columns=["district"])
+        with self.assertRaisesRegex(DatasetValidationError, "missing columns: district"):
+            validate_dataset(invalid)
+
 
 if __name__ == "__main__":
     unittest.main()
