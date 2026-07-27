@@ -1,0 +1,15 @@
+processed_column,source_indicator,source_publication,reporting_period,unit,transformation,validation_rule
+district,Stadtteil,Hamburger Stadtteil-Profile 2024,profile edition 2024,text,original German district name preserved,one of 14 expected unique Altona districts
+borough,Bezirk,Hamburger Stadtteil-Profile 2024,profile edition 2024,text,standardized as Altona,must equal Altona
+population,Bevölkerung,Hamburger Stadtteil-Profile 2024,profile edition 2024,persons,thousands separators removed,positive integer
+area_km2,Fläche in km²,Hamburger Stadtteil-Profile 2024,profile edition 2024,km²,decimal comma represented as decimal point,positive numeric
+population_density,Einwohner:innen je km²,Hamburger Stadtteil-Profile 2024,profile edition 2024,residents per km²,stored as published integer,positive and consistent with population divided by area within rounding tolerance
+under_18_percent,Unter 18-Jährige in % der Bevölkerung,Hamburger Stadtteil-Profile 2024,profile edition 2024,percent,stored as percentage points,between 0 and 100
+over_64_percent,65-Jährige und Ältere in % der Bevölkerung,Hamburger Stadtteil-Profile 2024,profile edition 2024,percent,stored as percentage points,between 0 and 100
+unemployment_share_percent_dec_2024,Arbeitslose in % der 15- bis unter 65-Jährigen,Hamburger Stadtteil-Profile 2024,2024-12,percent,stored as percentage points,between 0 and 100
+sgb2_share_percent_dec_2024,Leistungsempfänger:innen nach SGB II in % der Bevölkerung,Hamburger Stadtteil-Profile 2024,2024-12,percent,stored as percentage points,between 0 and 100
+avg_income_per_taxpayer_2021_eur,Einkommen je Steuerpflichtigen,Hamburger Stadtteil-Profile 2024,2021,EUR,stored as district-level published average,positive numeric; not safely aggregatable without taxpayer counts
+general_practitioners_jan_2025,Allgemeinärztinnen und Allgemeinärzte,Hamburger Stadtteil-Profile 2024,2025-01,count,stored as published count,non-negative integer
+pharmacies_dec_2024,Apotheken,Hamburger Stadtteil-Profile 2024,2024-12,count,stored as published count,non-negative integer
+private_cars_per_1000_jan_2025,Private PKW je 1 000 der Bevölkerung,Hamburger Stadtteil-Profile 2024,2025-01,cars per 1000 residents,stored as district-level published rate,non-negative numeric; not safely aggregatable without car and population counts
+electric_cars_jan_2025,Elektro-PKW,Hamburger Stadtteil-Profile 2024,2025-01,count,stored as published count,non-negative integer
