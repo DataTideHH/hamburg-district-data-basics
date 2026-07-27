@@ -1,0 +1,3 @@
+relationship,x_column,y_column,pearson_correlation,observations,interpretation
+income_vs_sgb2_share,avg_income_per_taxpayer_2021_eur,sgb2_share_percent_dec_2024,-0.86,14,descriptive association; not causal
+income_vs_unemployment_share,avg_income_per_taxpayer_2021_eur,unemployment_share_percent_dec_2024,-0.91,14,descriptive association; not causal
