@@ -1,12 +1,16 @@
 # Source Code
 
-This directory contains small Python scripts for the project.
+| File | Responsibility |
+|---|---|
+| `data_contract.py` | Expected schema, district set, domain rules and cross-field validation |
+| `analysis_workflow.py` | Shared loading, metrics, rankings, correlations and artifact generation |
+| `analyze_altona_profiles.py` | Command-line orchestration and concise run summary |
+| `check_environment.py` | Minimum Python runtime and installed-library check |
 
-Current file:
+Run the complete workflow from the repository root:
 
-- check_environment.py
+```bash
+python -m src.analyze_altona_profiles
+```
 
-Planned future files:
-
-- load_data.py
-- basic_eda.py
+The notebook and tests import the same shared functions so that calculation and validation logic remains centralized.
