@@ -71,11 +71,25 @@ def _format_values(values: Iterable[object]) -> str:
     return ", ".join(str(value) for value in sorted(values, key=str))
 
 
+def _invalid_row_labels(df: pd.DataFrame, mask: pd.Series) -> list[str]:
+    """Return district names when available, otherwise stable row labels."""
+
+    if "district" in df.columns:
+        return (
+            df.loc[mask, "district"]
+            .fillna("<missing district>")
+            .astype(str)
+            .tolist()
+        )
+    return [f"row {index}" for index in df.index[mask].tolist()]
+
+
 def validate_dataset(df: pd.DataFrame, *, density_tolerance: float = 1.0) -> None:
     """Validate schema, domain rules and basic cross-field consistency.
 
-    All detected problems are collected in one exception so that the complete
-    validation result can be reviewed instead of fixing errors one at a time.
+    All detected problems are collected and returned in one exception so that a
+    reviewer can see the complete validation result instead of fixing errors one
+    at a time.
     """
 
     errors: list[str] = []
@@ -134,7 +148,7 @@ def validate_dataset(df: pd.DataFrame, *, density_tolerance: float = 1.0) -> Non
 
     for column in PERCENT_COLUMNS:
         if column in df.columns and pd.api.types.is_numeric_dtype(df[column]):
-            invalid = df.loc[~df[column].between(0, 100), "district"].tolist()
+            invalid = _invalid_row_labels(df, ~df[column].between(0, 100))
             if invalid:
                 errors.append(
                     f"column '{column}' must be between 0 and 100; invalid districts: "
@@ -143,7 +157,7 @@ def validate_dataset(df: pd.DataFrame, *, density_tolerance: float = 1.0) -> Non
 
     for column in POSITIVE_COLUMNS:
         if column in df.columns and pd.api.types.is_numeric_dtype(df[column]):
-            invalid = df.loc[df[column] <= 0, "district"].tolist()
+            invalid = _invalid_row_labels(df, df[column] <= 0)
             if invalid:
                 errors.append(
                     f"column '{column}' must be greater than zero; invalid districts: "
@@ -152,7 +166,7 @@ def validate_dataset(df: pd.DataFrame, *, density_tolerance: float = 1.0) -> Non
 
     for column in NON_NEGATIVE_COLUMNS:
         if column in df.columns and pd.api.types.is_numeric_dtype(df[column]):
-            invalid = df.loc[df[column] < 0, "district"].tolist()
+            invalid = _invalid_row_labels(df, df[column] < 0)
             if invalid:
                 errors.append(
                     f"column '{column}' must not be negative; invalid districts: "
@@ -163,7 +177,7 @@ def validate_dataset(df: pd.DataFrame, *, density_tolerance: float = 1.0) -> Non
     if density_columns.issubset(df.columns):
         calculated_density = df["population"] / df["area_km2"]
         density_difference = (calculated_density - df["population_density"]).abs()
-        invalid = df.loc[density_difference > density_tolerance, "district"].tolist()
+        invalid = _invalid_row_labels(df, density_difference > density_tolerance)
         if invalid:
             errors.append(
                 "population density differs from population / area by more than "
