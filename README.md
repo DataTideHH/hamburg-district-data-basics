@@ -1,141 +1,118 @@
 # Hamburg District Data Basics
 
-**Public Hamburg district data · Altona case study · Python/pandas · exploratory analysis · data quality · BI-style interpretation · Power BI preparation**
+**Public Hamburg district data · Altona case study · Python/pandas · data quality · exploratory analysis · BI-style interpretation · Power BI preparation**
 
-This repository documents a small, reproducible Data/BI workflow based on public Hamburg district profile data.
+This repository documents a small, reproducible Data/BI workflow based on official Hamburg district profile data. The current scope is deliberately limited to the **14 districts in the borough of Altona** so that the source, transformations, findings and limitations remain easy to review.
 
-The repository name is intentionally broader, but the current analysis scope is deliberately limited to the **Altona borough in Hamburg** as a first reproducible case study. This keeps the project small, transparent and easy to review before expanding it to additional districts or boroughs.
-
-It is part of my broader **DataTideHH portfolio** and supports my learning path toward **Data/BI Analyst** roles with a focus on SQL, Python, Power BI, Microsoft Fabric/Azure fundamentals, data quality and process-oriented analytics.
+The project supports my learning path toward **Data/BI Analyst** roles with a focus on SQL, Python, Power BI, data quality, process-oriented analytics and the Microsoft Data Stack.
 
 ---
 
-## Why This Project Matters for Data/BI
+## Results at a Glance
 
-Many practical Data/BI tasks start with public, operational or semi-structured source data and require a clear path from source understanding to useful interpretation.
+The processed dataset covers **281,136 residents across 77.8 km²**.
 
-This project demonstrates that workflow on a small and transparent local dataset:
+| Indicator | Current descriptive result |
+|---|---|
+| Largest population | **Lurup** — 37,755 residents |
+| Highest population density | **Sternschanze** — 15,338 residents/km² |
+| Highest average income per taxpayer | **Nienstedten** — €168,404 |
+| Highest unemployment share | **Lurup** — 8.5% |
+| Highest SGB II share | **Lurup** — 14.7% |
+| Highest private-car rate | **Nienstedten** — 502 cars per 1,000 residents |
 
-- document the data source
-- define the dataset scope
-- prepare a structured CSV file
-- describe indicators and limitations
-- run reproducible Python/pandas analysis
-- generate reusable charts
-- document short findings
-- prepare the result for later Power BI dashboard work
+Within this small dataset, average income is negatively correlated with SGB II share (**-0.86**) and unemployment share (**-0.91**). These are descriptive relationships only and do not establish causality.
 
-The goal is not to build a complete Hamburg-wide data platform yet. The goal is to show a clean and understandable workflow from public district data to BI-style questions and documented insights.
+The complete written interpretation is available in [`reports/findings.md`](reports/findings.md).
+
+### Selected Analysis Outputs
+
+<table>
+<tr>
+<td width="50%">
+<img src="reports/figures/population_by_district_altona_2024.png" alt="Population by district in Altona, 2024">
+</td>
+<td width="50%">
+<img src="reports/figures/population_density_by_district_altona_2024.png" alt="Population density by district in Altona, 2024">
+</td>
+</tr>
+<tr>
+<td width="50%">
+<img src="reports/figures/income_vs_sgb2_share_altona_2024.png" alt="Average income compared with SGB II share in Altona districts">
+</td>
+<td width="50%">
+<img src="reports/figures/private_cars_per_1000_altona_2024.png" alt="Private cars per 1,000 residents in Altona districts">
+</td>
+</tr>
+</table>
 
 ---
 
 ## Business and BI Questions
 
-This project can support practical BI-style questions such as:
+The workflow supports descriptive questions such as:
 
-- Which Altona districts differ most strongly by population size or density?
-- Which districts show higher or lower values for selected social indicators?
-- How do income, SGB II share, unemployment share and car ownership differ across districts?
-- Which indicators would be useful for a compact Power BI dashboard?
-- What are the interpretation limits of a small district-level dataset?
+- Which Altona districts differ most strongly by population size and density?
+- How do income, unemployment share and SGB II share differ across districts?
+- Which districts show unusually high or low private-car ownership?
+- Which indicators are suitable for a compact Power BI report?
+- Which interpretation limits must be made visible to report users?
 
-These questions are descriptive. They help structure analysis and reporting, but they do not prove causal relationships.
-
----
-
-## Current Scope
-
-The current version focuses on selected district profile indicators for the **borough of Altona, Hamburg**.
-
-Included districts:
-
-- Altona-Altstadt
-- Sternschanze
-- Altona-Nord
-- Ottensen
-- Bahrenfeld
-- Groß Flottbek
-- Othmarschen
-- Lurup
-- Osdorf
-- Nienstedten
-- Blankenese
-- Iserbrook
-- Sülldorf
-- Rissen
-
-The analysis is intentionally small and transparent. This makes it easier to review the data source, the processing steps, the generated charts and the written interpretation.
+The purpose is not to produce a complete urban-policy analysis. It is to demonstrate a transparent path from public source data to structured analysis, visual outputs and BI-oriented interpretation.
 
 ---
 
-## Data Source
-
-The analysis is based on a processed extract from the official Hamburg district profiles.
-
-Source context:
+## Data Source and Scope
 
 | Item | Value |
 |---|---|
-| Source | Hamburger Stadtteil-Profile |
-| Reporting year | 2024 |
+| Source | [Hamburger Stadtteil-Profile 2024](https://www.statistik-nord.de/fileadmin/user_upload/Stadtteil-Profile-HH_BJ-2024.pdf) |
 | Publisher | Statistikamt Nord |
-| Granularity | Hamburg city districts / Stadtteile |
-| Current analysis focus | Altona borough |
+| Geographic grain | Hamburg district / Stadtteil |
+| Current scope | 14 districts in the borough of Altona |
+| Source access date | 8 June 2026 |
+| Processed dataset | [`data/processed/altona_district_profiles_2024.csv`](data/processed/altona_district_profiles_2024.csv) |
 
-The source documentation is maintained in:
+Selected indicators include population, area, population density, age structure, unemployment share, SGB II share, average income per taxpayer, healthcare access and car ownership.
 
-```text
-docs/data-sources.md
-```
+The indicators do not all refer to the same reporting date. Exact definitions, original context and time references are documented in:
 
-The data dictionary is maintained in:
-
-```text
-docs/data-dictionary.md
-```
-
-The processed analysis file is:
-
-```text
-data/processed/altona_district_profiles_2024.csv
-```
+- [`docs/data-sources.md`](docs/data-sources.md)
+- [`docs/data-dictionary.md`](docs/data-dictionary.md)
 
 ---
 
-## Dataset
+## Reproducible Workflow
 
-The processed CSV contains **14 Altona districts**.
+```text
+official district-profile source
+              |
+              v
+documented processed CSV extract
+              |
+              v
+Python/pandas validation and analysis
+              |
+              v
+descriptive summaries and rankings
+              |
+              v
+matplotlib figures and written findings
+              |
+              v
+Power BI dashboard preparation
+```
 
-Selected indicators include:
+The workflow currently:
 
-- population
-- area
-- population density
-- age structure
-- unemployment share
-- SGB II share
-- average income per taxpayer
-- general practitioners
-- pharmacies
-- private cars per 1,000 residents
-- electric cars
-
-The dataset is intentionally limited. It is suitable for exploratory analysis, documentation practice and BI preparation, but not for broad policy conclusions without additional data and context.
-
----
-
-## Analysis Workflow
-
-The current workflow is:
-
-1. document the public data source
-2. maintain a processed CSV extract
-3. validate the local Python environment
-4. load the dataset with pandas
-5. calculate descriptive summaries and rankings
-6. generate selected charts with matplotlib
-7. document findings and limitations
-8. prepare a later Power BI dashboard concept
+1. documents the official source and reporting context
+2. maintains a compact processed CSV extract
+3. validates the local Python environment
+4. loads and analyses the dataset with pandas
+5. generates descriptive statistics, rankings and correlations
+6. writes four reusable chart artifacts
+7. documents findings and interpretation limits
+8. prepares a later Power BI reporting layer
 
 ---
 
@@ -144,18 +121,14 @@ The current workflow is:
 ```text
 hamburg-district-data-basics/
 ├── data/
-│   ├── README.md
-│   ├── processed/
-│   │   └── altona_district_profiles_2024.csv
-│   └── raw/
-│       └── .gitkeep
+│   └── processed/
+│       └── altona_district_profiles_2024.csv
 ├── docs/
 │   ├── data-dictionary.md
 │   ├── data-sources.md
 │   └── power-bi-dashboard-plan.md
 ├── notebooks/
-│   ├── 01_altona_district_profiles_2024.ipynb
-│   └── README.md
+│   └── 01_altona_district_profiles_2024.ipynb
 ├── reports/
 │   ├── findings.md
 │   └── figures/
@@ -164,10 +137,8 @@ hamburg-district-data-basics/
 │       ├── population_density_by_district_altona_2024.png
 │       └── private_cars_per_1000_altona_2024.png
 ├── src/
-│   ├── README.md
 │   ├── analyze_altona_profiles.py
 │   └── check_environment.py
-├── .gitignore
 ├── LICENSE
 ├── README.md
 └── requirements.txt
@@ -175,121 +146,72 @@ hamburg-district-data-basics/
 
 ---
 
-## How to Run
+## Run Locally
 
-Create and activate a virtual environment:
+The project targets Python 3.12.
 
 ```bash
 python3.12 -m venv .venv
 source .venv/bin/activate
-```
-
-Install dependencies:
-
-```bash
 python -m pip install -r requirements.txt
-```
-
-Check the environment:
-
-```bash
 python src/check_environment.py
-```
-
-Run the analysis:
-
-```bash
 python src/analyze_altona_profiles.py
 ```
 
----
+On Windows PowerShell, activate the environment with:
 
-## Outputs
-
-The analysis script generates figures in:
-
-```text
-reports/figures/
+```powershell
+.\.venv\Scripts\Activate.ps1
 ```
 
-The written findings are documented in:
-
-```text
-reports/findings.md
-```
-
-The notebook-based exploration is available in:
-
-```text
-notebooks/01_altona_district_profiles_2024.ipynb
-```
-
-The planned Power BI dashboard structure is documented in:
-
-```text
-docs/power-bi-dashboard-plan.md
-```
+The analysis script generates the figures under `reports/figures/`. Notebook-based exploration is available in [`notebooks/01_altona_district_profiles_2024.ipynb`](notebooks/01_altona_district_profiles_2024.ipynb).
 
 ---
 
 ## What This Demonstrates
 
-This project demonstrates a practical early-stage Data/BI workflow:
-
-- turning public source data into a structured analysis dataset
-- documenting source context and limitations
-- using Python and pandas for lightweight analysis
-- creating descriptive statistics and rankings
-- generating charts as reusable report artifacts
-- separating data, scripts, documentation and reports
-- preparing analysis outputs for BI/dashboard thinking
-- keeping the project small enough to be understandable and maintainable
+- translating a public source into a documented analysis dataset
+- defining dataset grain, scope and limitations
+- using Python and pandas for descriptive analysis
+- producing reusable report figures with matplotlib
+- separating data, code, documentation and findings
+- distinguishing descriptive relationships from causal claims
+- preparing analytical outputs for a later BI report
+- keeping a portfolio project small, reproducible and reviewable
 
 ---
 
-## BI Perspective
+## Power BI Status and Next Milestone
 
-The project is currently Python/pandas-based, but it is structured to support a later Power BI version.
+Power BI is **not presented as completed** in the current repository.
 
-A useful next BI layer would include:
+The planned reporting layer is documented in [`docs/power-bi-dashboard-plan.md`](docs/power-bi-dashboard-plan.md). A useful first version would include:
 
-- a compact district overview page
 - KPI cards for population, density and selected social indicators
-- bar charts for district comparisons
-- scatterplots for indicator relationships
-- clear source and limitation notes
-- a simple data model based on the processed CSV
+- district comparison charts
+- a scatterplot for selected indicator relationships
+- clear source, time-reference and limitation notes
+- a simple explainable data model based on the processed CSV
 
-Power BI is not presented as a completed part of this repository yet. It is the next reporting layer after the Python analysis, findings and dataset documentation.
+The next substantive milestone is a small Power BI prototype with a reviewed public screenshot and documented measures. Expansion to all Hamburg boroughs should follow only after the Altona workflow and dashboard are stable.
 
 ---
 
 ## Interpretation Limits
 
-This is a descriptive analysis, not a causal model.
+This is a descriptive portfolio analysis, not a causal model.
 
-The current dataset is small and limited to one Hamburg borough. Indicators should not be interpreted without understanding the source definitions, reporting year, granularity and local context.
+Important limitations:
 
-The project should be read as a portfolio and learning project for reproducible Data/BI workflows, not as a complete urban policy analysis.
-
----
-
-## Roadmap: From Altona Case Study to Hamburg BI Dashboard
-
-Planned improvements are intentionally incremental:
-
-1. improve the current Altona findings and chart descriptions
-2. add simple data quality checks for missing values and indicator ranges
-3. refine the Power BI dashboard plan
-4. create a first Power BI dashboard based on the processed CSV
-5. document the Power BI data model and dashboard pages
-6. extend the analysis to additional Hamburg boroughs
-7. later connect the project conceptually to Microsoft Fabric/Azure as a platform perspective
+- only one Hamburg borough is included
+- the dataset contains 14 observations
+- indicators use different reporting dates
+- absolute counts, rates and ratios must not be compared without context
+- the workflow does not control for demographics, housing, land use or transport access
+- correlations in this dataset do not establish causality
 
 ---
 
-## Notes
+## License
 
-This repository is intended as a practical, transparent and locally relevant Data/BI portfolio project.
-
-It is deliberately small, documented and reproducible. That makes it useful for explaining data workflows to recruiters, internship providers and technical reviewers.
+This project is licensed under the terms in [`LICENSE`](LICENSE).
