@@ -1,48 +1,26 @@
 # Notebooks
 
-This folder contains notebook-based exploratory analysis for the Hamburg District Data Basics project.
+The notebook provides a readable exploration of the validated Altona district dataset:
 
-## Current Notebook
+```text
+01_altona_district_profiles_2024.ipynb
+```
 
-Notebook file:
+It uses the same shared functions as the command-line workflow for:
 
-    01_altona_district_profiles_2024.ipynb
+- dataset loading and contract validation
+- canonical summary metrics
+- long-format rankings
+- descriptive correlations
+- figure generation
 
-This notebook explores selected district profile indicators for the borough of Altona, Hamburg.
+This avoids maintaining separate analytical logic in the notebook and script.
 
-It complements the script-based workflow in:
+Run from the repository root:
 
-    src/analyze_altona_profiles.py
+```bash
+source .venv/bin/activate
+jupyter notebook notebooks/01_altona_district_profiles_2024.ipynb
+```
 
-## Purpose
-
-The notebook is intended as a readable portfolio artifact. It documents:
-
-- dataset loading
-- basic data checks
-- summary metrics
-- ranking tables
-- exploratory charts
-- interpretation limits
-
-## How to Run
-
-From the repository root, activate the virtual environment:
-
-    source .venv/bin/activate
-
-Then start Jupyter:
-
-    jupyter notebook notebooks/01_altona_district_profiles_2024.ipynb
-
-Alternatively, open the notebook in DataSpell, PyCharm Professional or VS Code.
-
-## Notes
-
-The notebook uses the processed dataset from:
-
-    data/processed/altona_district_profiles_2024.csv
-
-The script-based version of the analysis remains in:
-
-    src/analyze_altona_profiles.py
+The committed notebook is intended as a readable review artifact. Re-execution requires the processed CSV and installed project dependencies.

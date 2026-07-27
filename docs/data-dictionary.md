@@ -1,77 +1,36 @@
 # Data Dictionary
 
-This data dictionary describes the processed analysis file used in this repository.
+This data dictionary describes the processed district-level analysis file:
 
-Processed file:
+```text
+data/processed/altona_district_profiles_2024.csv
+```
 
-    data/processed/altona_district_profiles_2024.csv
+The dataset grain is **one row per district / Stadtteil** within the borough of Altona.
 
-Source context:
+| Column | Meaning | Unit / format | Reporting period | Aggregation and validation notes |
+|---|---|---|---|---|
+| `district` | Hamburg district / Stadtteil name | text | 2024 profile edition | Unique; one of 14 expected Altona districts |
+| `borough` | Hamburg borough / Bezirk | text | 2024 profile edition | Must equal `Altona` |
+| `population` | Resident population | persons | 2024 profile edition | Positive; additive |
+| `area_km2` | District area | km² | 2024 profile edition | Positive; additive |
+| `population_density` | Published district population density | residents/km² | 2024 profile edition | Positive; checked against population / area within rounding tolerance; do not average for an overall density |
+| `under_18_percent` | Residents under 18 | percent | 2024 profile edition | 0–100; district-level rate |
+| `over_64_percent` | Residents aged 65 and older | percent | 2024 profile edition | 0–100; district-level rate |
+| `unemployment_share_percent_dec_2024` | Unemployed persons among residents aged 15 to under 65 | percent | December 2024 | 0–100; overall Altona value requires original numerator and denominator |
+| `sgb2_share_percent_dec_2024` | SGB II recipients as share of population | percent | December 2024 | 0–100; overall Altona value requires original numerator and denominator |
+| `avg_income_per_taxpayer_2021_eur` | Average income per taxpayer | EUR | 2021 | Positive district-level average; overall Altona average requires taxpayer counts |
+| `general_practitioners_jan_2025` | General practitioners | count | January 2025 | Non-negative; additive as a count, but service interpretation also needs population context |
+| `pharmacies_dec_2024` | Pharmacies | count | December 2024 | Non-negative; additive as a count, but service interpretation also needs population context |
+| `private_cars_per_1000_jan_2025` | Private cars per 1,000 residents | rate | January 2025 | Non-negative district-level rate; overall rate requires car and population counts |
+| `electric_cars_jan_2025` | Electric cars | count | January 2025 | Non-negative; additive |
 
-- Source title: Hamburger Stadtteil-Profile
-- Reporting year: 2024
-- Publisher: Statistikamt Nord
-- Current analysis scope: Altona borough, Hamburg
-- Geographic level: Stadtteil / district
+## Time and Aggregation Semantics
 
-## Columns
+The dataset combines different reporting periods. Visuals and calculations must retain those dates in titles, labels or metadata.
 
-| Column | Meaning | Unit / Format | Source indicator / note |
-|---|---|---|---|
-| district | Hamburg district / Stadtteil name | text | German district name from the official profile |
-| borough | Hamburg borough / Bezirk | text | Current analysis uses Altona |
-| population | Resident population | persons | Bevölkerung |
-| area_km2 | District area | square kilometres | Fläche in km² |
-| population_density | Population density | residents per km² | Einwohner:innen je km² |
-| under_18_percent | Share of residents under 18 | percent | Unter 18-Jährige, in % der Bevölkerung |
-| over_64_percent | Share of residents aged 65 and older | percent | 65-Jährige und Ältere, in % der Bevölkerung |
-| unemployment_share_percent_dec_2024 | Share of unemployed persons | percent | Arbeitslose, in % der 15- bis unter 65-Jährigen, December 2024 |
-| sgb2_share_percent_dec_2024 | Share of SGB II recipients | percent | Leistungsempfänger:innen nach SGB II, in % der Bevölkerung, December 2024 |
-| avg_income_per_taxpayer_2021_eur | Average income per taxpayer | EUR | Einkommen je Steuerpflichtigen in Euro, 2021 |
-| general_practitioners_jan_2025 | General practitioners | count | Allgemeinärztinnen/-ärzte, January 2025 |
-| pharmacies_dec_2024 | Pharmacies | count | Apotheken, December 2024 |
-| private_cars_per_1000_jan_2025 | Private cars per 1,000 residents | cars per 1,000 residents | Private PKW je 1 000 der Bevölkerung, January 2025 |
-| electric_cars_jan_2025 | Electric cars | count | Elektro-PKW, January 2025 |
+Additive columns can be summed across districts. District-level averages, percentages and rates cannot automatically be averaged into a correct borough-wide KPI. Where the source numerator and denominator are unavailable, the project uses district comparisons, rankings or explicitly labelled district medians instead.
 
-## Notes on Time References
+## Contract
 
-The indicators do not all refer to the same reporting date.
-
-Important examples:
-
-- average income per taxpayer refers to 2021
-- unemployment share refers to December 2024
-- SGB II share refers to December 2024
-- general practitioners refer to January 2025
-- pharmacies refer to December 2024
-- private cars and electric cars refer to January 2025
-
-This matters for interpretation. The processed CSV is useful for descriptive comparison, but it should not be treated as a single-day snapshot.
-
-## Interpretation Notes
-
-The dataset is intentionally small and limited to 14 districts in the borough of Altona.
-
-It supports:
-
-- descriptive comparison
-- ranking tables
-- basic visualizations
-- first portfolio documentation
-- preparation for Power BI modelling
-
-It does not support:
-
-- causal claims
-- full Hamburg-wide comparison
-- detailed socio-economic modelling
-- time-series analysis
-
-## Planned Improvements
-
-Possible next improvements:
-
-1. Add all Hamburg boroughs.
-2. Add original German source labels for a broader indicator set.
-3. Add a structured Power BI model later.
-4. Add source extraction notes when more data is added.
+The executable contract is maintained in [`../src/data_contract.py`](../src/data_contract.py). Source mappings and transformations are maintained in [`data-lineage.csv`](data-lineage.csv).

@@ -1,94 +1,127 @@
-# Findings: Altona District Profiles 2024
+# Findings: Altona District Profiles
 
-This report summarizes the first descriptive analysis of selected district profile indicators for the borough of Altona, Hamburg.
+This report summarizes the descriptive analysis of selected district-profile indicators for the 14 districts in the borough of Altona, Hamburg.
+
+The canonical machine-readable results are generated in:
+
+- `reports/generated/summary_metrics.json`
+- `reports/generated/district_rankings.csv`
+- `reports/generated/correlation_summary.csv`
 
 ## Scope
 
-The analysis covers 14 districts in the borough of Altona.
+- Grain: one row per district / Stadtteil
+- Districts: 14
+- Source context: Hamburger Stadtteil-Profile 2024, Statistikamt Nord
+- Analysis type: descriptive comparison
 
-The processed dataset is:
-
-    data/processed/altona_district_profiles_2024.csv
-
-The analysis is descriptive. It compares selected indicators across districts and does not make causal claims.
+The indicators use different reporting periods. The report therefore does not treat the extract as a single-date snapshot.
 
 ## Dataset Summary
 
-- Number of districts: 14
-- Total population in the processed dataset: 281,136
-- Total area in the processed dataset: 77.8 km²
-- Population-weighted average density: 3,614 residents per km²
+- Total population: **281,136**
+- Total area: **77.8 km²**
+- Aggregate population density: **3,614 residents per km²**
+
+Aggregate population density is calculated as:
+
+```text
+total population / total area
+```
+
+It is not an unweighted average of the 14 district-density values and is not described as a population-weighted mean.
 
 ## Population
 
-The largest district by population is **Lurup** with 37,755 residents.
+The largest district by population is **Lurup** with 37,755 residents. The smallest is **Nienstedten** with 7,062 residents.
 
-The smallest district by population is **Nienstedten** with 7,062 residents.
-
-This shows that district size within the same borough varies considerably. For reporting and dashboard work, absolute values should therefore be interpreted alongside ratios such as population density or shares.
+Absolute population should be interpreted together with area and density. Districts of similar population can represent very different settlement structures.
 
 ## Population Density
 
-The highest population density is found in **Sternschanze** with 15,338 residents per km².
+The highest district-level population density is **Sternschanze** with 15,338 residents per km². The lowest is **Rissen** with 984 residents per km².
 
-The lowest population density is found in **Rissen** with 984 residents per km².
-
-This is one of the clearest structural differences inside Altona: compact inner-city districts and lower-density western districts represent very different urban contexts.
+This is one of the clearest structural differences within Altona: compact inner-city districts and lower-density western districts represent different urban contexts.
 
 ## Income and Social Indicators
 
-The highest average income per taxpayer is shown for **Nienstedten** with 168,404 EUR.
+Average income per taxpayer refers to **2021**. Unemployment and SGB II shares refer to **December 2024**.
 
-The lowest average income per taxpayer is shown for **Lurup** with 35,445 EUR.
+- Highest average income per taxpayer: **Nienstedten**, €168,404
+- Lowest average income per taxpayer: **Lurup**, €35,445
+- Highest unemployment share: **Lurup**, 8.5%
+- Lowest unemployment share: **Nienstedten**, 2.4%
+- Highest SGB II share: **Lurup**, 14.7%
+- Lowest SGB II share: **Nienstedten**, 1.0%
 
-The highest unemployment share is shown for **Lurup** with 8.5 percent.
+Across the 14 districts, average income per taxpayer is negatively correlated with:
 
-The lowest unemployment share is shown for **Nienstedten** with 2.4 percent.
+- SGB II share: **-0.86**
+- unemployment share: **-0.91**
 
-The highest SGB II share is shown for **Lurup** with 14.7 percent.
-
-The lowest SGB II share is shown for **Nienstedten** with 1.0 percent.
-
-In this small dataset, average income is negatively correlated with SGB II share (-0.86) and with unemployment share (-0.91). This is a descriptive relationship only and should not be interpreted as causal.
+These Pearson correlations describe association in a small cross-sectional dataset. They do not establish causal direction and combine indicators from different reporting periods.
 
 ## Mobility Indicators
 
-The highest number of private cars per 1,000 residents is shown for **Nienstedten** with 502 cars per 1,000 residents.
+Private-car rates and electric-car counts refer to **January 2025**.
 
-The lowest number of private cars per 1,000 residents is shown for **Sternschanze** with 186 cars per 1,000 residents.
+- Highest private cars per 1,000 residents: **Nienstedten**, 502
+- Lowest private cars per 1,000 residents: **Sternschanze**, 186
+- Highest absolute electric-car count: **Othmarschen**, 1,371
 
-The highest absolute number of electric cars is shown for **Othmarschen** with 1,371 electric cars.
+The private-car rate is suitable for district comparison. Absolute electric-car counts are influenced by district population and should not be interpreted as a penetration rate.
 
-These mobility indicators should be interpreted carefully. District density, household structure, income levels, public transport access and land-use patterns may all influence car ownership.
+## Data Quality Result
 
-## Generated Figures
+The committed dataset passes the documented contract:
 
-The current analysis includes the following generated charts:
+- expected schema and order
+- 14 unique expected districts
+- Altona-only borough scope
+- no missing values
+- numeric analytical fields
+- valid percentage domains
+- positive and non-negative value rules
+- population-density consistency within rounding tolerance
 
-- reports/figures/population_by_district_altona_2024.png
-- reports/figures/population_density_by_district_altona_2024.png
-- reports/figures/income_vs_sgb2_share_altona_2024.png
-- reports/figures/private_cars_per_1000_altona_2024.png
+These rules verify structural and domain plausibility. They do not independently certify every source value against the original PDF.
+
+## BI Aggregation Notes
+
+The following can be aggregated directly:
+
+- population
+- area
+- electric-car counts
+
+Aggregate population density can be derived from additive components:
+
+```text
+SUM(population) / SUM(area_km2)
+```
+
+The following district-level averages or rates must not be presented as an overall Altona value using a simple average unless explicitly labelled as an unweighted district statistic:
+
+- average income per taxpayer
+- unemployment share
+- SGB II share
+- private cars per 1,000 residents
+
+Correct overall values would require the original numerators and denominators.
 
 ## Interpretation Limits
 
-This analysis is a first descriptive portfolio workflow.
-
-Important limitations:
-
-- The dataset covers only one Hamburg borough.
+- The dataset covers only Altona.
 - The number of observations is small.
-- Indicators refer to different reporting dates.
-- Some indicators are absolute counts, while others are rates or ratios.
+- Indicators refer to different dates.
+- The source extract is descriptive and cross-sectional.
+- Several metrics have different denominator populations.
 - The analysis does not control for demographic structure, housing, land use or transport access.
-- Correlations in this dataset are descriptive and not causal.
+- Correlations are descriptive, not causal.
 
-## Next Steps
+## Next Milestones
 
-Useful next improvements:
-
-1. Add a data dictionary with original German indicator names.
-2. Add exact official source URL and access date.
-3. Extend the dataset to all Hamburg boroughs.
-4. Add population density and social indicator comparison charts.
-5. Prepare a Power BI version with a simple star-schema-style model.
+1. Implement the documented Power BI overview page locally.
+2. Review all visual labels and DAX measures against the aggregation rules.
+3. Add a public-safe screenshot and final measure documentation after the report is stable.
+4. Expand geographic scope only after the Altona workflow remains validated and reproducible.

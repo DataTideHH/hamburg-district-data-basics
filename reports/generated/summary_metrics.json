@@ -1,0 +1,76 @@
+{
+  "district_count": 14,
+  "total_population": 281136,
+  "total_area_km2": 77.8,
+  "aggregate_population_density_per_km2": 3614,
+  "population": {
+    "highest": {
+      "district": "Lurup",
+      "value": 37755.0
+    },
+    "lowest": {
+      "district": "Nienstedten",
+      "value": 7062.0
+    }
+  },
+  "population_density": {
+    "highest": {
+      "district": "Sternschanze",
+      "value": 15338.0
+    },
+    "lowest": {
+      "district": "Rissen",
+      "value": 984.0
+    }
+  },
+  "average_income_per_taxpayer_2021_eur": {
+    "highest": {
+      "district": "Nienstedten",
+      "value": 168404.0
+    },
+    "lowest": {
+      "district": "Lurup",
+      "value": 35445.0
+    }
+  },
+  "unemployment_share_percent_dec_2024": {
+    "highest": {
+      "district": "Lurup",
+      "value": 8.5
+    },
+    "lowest": {
+      "district": "Nienstedten",
+      "value": 2.4
+    }
+  },
+  "sgb2_share_percent_dec_2024": {
+    "highest": {
+      "district": "Lurup",
+      "value": 14.7
+    },
+    "lowest": {
+      "district": "Nienstedten",
+      "value": 1.0
+    }
+  },
+  "private_cars_per_1000_jan_2025": {
+    "highest": {
+      "district": "Nienstedten",
+      "value": 502.0
+    },
+    "lowest": {
+      "district": "Sternschanze",
+      "value": 186.0
+    }
+  },
+  "electric_cars_jan_2025": {
+    "highest": {
+      "district": "Othmarschen",
+      "value": 1371.0
+    },
+    "lowest": {
+      "district": "Sternschanze",
+      "value": 99.0
+    }
+  }
+}
