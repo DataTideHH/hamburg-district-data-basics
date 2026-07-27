@@ -251,7 +251,7 @@ def save_scatter_plot(
     ax.set_ylabel("SGB II share, December 2024, %")
     fig.tight_layout()
 
-    path = output_dir / "income_2021_vs_sgb2_share_dec_2024.png"
+    path = output_dir / "income_vs_sgb2_share_altona_2024.png"
     fig.savefig(path, dpi=160)
     plt.close(fig)
     return path
@@ -282,7 +282,7 @@ def write_figures(df: pd.DataFrame, output_dir: Path = FIGURES_DIR) -> list[Path
             "private_cars_per_1000_jan_2025",
             "Private cars per 1,000 residents (January 2025)",
             "Private cars per 1,000 residents",
-            "private_cars_per_1000_altona_jan_2025.png",
+            "private_cars_per_1000_altona_2024.png",
             output_dir=output_dir,
         ),
         save_scatter_plot(df, output_dir=output_dir),
