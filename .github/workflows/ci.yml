@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+    env:
+      MPLBACKEND: Agg
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+
+      - name: Check runtime
+        run: python -m src.check_environment
+
+      - name: Run tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+
+      - name: Run analysis workflow
+        run: python -m src.analyze_altona_profiles
+
+      - name: Verify committed generated data is current
+        run: git diff --exit-code -- reports/generated
