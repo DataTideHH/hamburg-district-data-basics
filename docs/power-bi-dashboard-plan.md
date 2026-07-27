@@ -1,192 +1,186 @@
 # Power BI Dashboard Plan
 
-This document outlines a planned Power BI dashboard version of the Hamburg District Data Basics project.
+## Status
 
-The dashboard is not implemented yet. This file documents the intended analytical structure, data model and report pages before building the actual Power BI report.
+This document defines the intended semantic model and report logic before a local Power BI implementation is presented publicly. No completed `.pbix` file is claimed.
 
 ## Purpose
 
-The goal is to turn the processed Altona district profile dataset into a small Power BI report that demonstrates basic Data/BI workflow skills:
+The first report should demonstrate:
 
-- importing a documented CSV dataset
-- creating a simple semantic model
-- defining basic measures and KPIs
-- building clear dashboard pages
-- separating descriptive analysis from interpretation
-- documenting report limitations
+- importing a documented and validated CSV
+- preserving district-level grain
+- defining measures with correct aggregation semantics
+- comparing districts without inventing borough-wide values
+- displaying source dates and limitations inside the report
+- connecting analytical findings with a clear business-facing page
 
-## Current Dataset
+## Source and Grain
 
-Planned source file:
+| Item | Value |
+|---|---|
+| Source table | `DistrictProfiles` |
+| Source file | `data/processed/altona_district_profiles_2024.csv` |
+| Grain | One row per district / Stadtteil |
+| Current row count | 14 |
+| Natural key | `district` within the fixed Altona scope |
 
-    data/processed/altona_district_profiles_2024.csv
+A single-table model is appropriate for the first version. A star schema would add complexity without analytical benefit at the current grain and size.
 
-Supporting documentation:
+## Aggregation Classes
 
-    docs/data-sources.md
-    docs/data-dictionary.md
-    reports/findings.md
-    notebooks/01_altona_district_profiles_2024.ipynb
+### Additive columns
 
-Current geographic scope:
+These can be summed across districts:
 
-- borough: Altona, Hamburg
-- level: Stadtteil / district
-- number of districts: 14
+- `population`
+- `area_km2`
+- `general_practitioners_jan_2025`
+- `pharmacies_dec_2024`
+- `electric_cars_jan_2025`
 
-## Planned Data Model
+Counts may still require population context for interpretation, but their arithmetic aggregation is valid.
 
-For the first Power BI version, a simple single-table model is sufficient.
+### Derived measure from additive components
 
-Table:
+Overall population density must be calculated from totals:
 
-    DistrictProfiles
+```DAX
+Total Population =
+SUM(DistrictProfiles[population])
+```
 
-Planned key column:
+```DAX
+Total Area km2 =
+SUM(DistrictProfiles[area_km2])
+```
 
-    district
+```DAX
+Aggregate Population Density =
+DIVIDE([Total Population], [Total Area km2])
+```
 
-Selected fields:
+It must not use `AVERAGE(DistrictProfiles[population_density])`.
 
-- district
-- borough
-- population
-- area_km2
-- population_density
-- under_18_percent
-- over_64_percent
-- unemployment_share_percent_dec_2024
-- sgb2_share_percent_dec_2024
-- avg_income_per_taxpayer_2021_eur
-- general_practitioners_jan_2025
-- pharmacies_dec_2024
-- private_cars_per_1000_jan_2025
-- electric_cars_jan_2025
+### District-level rates and averages
 
-A more advanced version could later split the model into dimension and fact-like tables, but this is not necessary for the first portfolio version.
+The following columns are suitable for district comparisons but not for an overall Altona KPI using a simple average:
 
-## Planned Measures
+- `under_18_percent`
+- `over_64_percent`
+- `unemployment_share_percent_dec_2024`
+- `sgb2_share_percent_dec_2024`
+- `avg_income_per_taxpayer_2021_eur`
+- `private_cars_per_1000_jan_2025`
 
-Possible DAX measures:
+Correct borough-wide values would require their original numerators and denominators. Until those are available, the report should use:
 
-    Total Population
-    Total Area km2
-    Average Population Density
-    Average Income per Taxpayer
-    Average Unemployment Share
-    Average SGB II Share
-    Total Electric Cars
-    Average Private Cars per 1,000 Residents
+- district-level bars, tables and scatterplots
+- selected-district values
+- explicitly labelled unweighted district medians where useful
 
-Possible ranking measures:
+## Measures
 
-    Population Rank
-    Density Rank
-    Income Rank
-    SGB II Share Rank
+### Safe aggregate measures
 
-## Planned Report Pages
+```DAX
+District Count =
+DISTINCTCOUNT(DistrictProfiles[district])
+```
 
-### 1. Overview
+```DAX
+Total Population =
+SUM(DistrictProfiles[population])
+```
 
-Purpose:
+```DAX
+Total Area km2 =
+SUM(DistrictProfiles[area_km2])
+```
 
-Give a compact overview of Altona's district structure.
+```DAX
+Aggregate Population Density =
+DIVIDE([Total Population], [Total Area km2])
+```
 
-Possible visuals:
+```DAX
+Total Electric Cars Jan 2025 =
+SUM(DistrictProfiles[electric_cars_jan_2025])
+```
 
-- card: total population
-- card: total area
-- card: number of districts
-- bar chart: population by district
-- bar chart: population density by district
-- table: district, population, area, density
+### Selected-district measures
 
-### 2. Social Indicators
+These return a value only when one district is selected:
 
-Purpose:
+```DAX
+Selected District Income 2021 =
+SELECTEDVALUE(DistrictProfiles[avg_income_per_taxpayer_2021_eur])
+```
 
-Compare income, unemployment and SGB II indicators across districts.
+```DAX
+Selected District Unemployment Share Dec 2024 =
+SELECTEDVALUE(DistrictProfiles[unemployment_share_percent_dec_2024])
+```
 
-Possible visuals:
+```DAX
+Selected District SGB II Share Dec 2024 =
+SELECTEDVALUE(DistrictProfiles[sgb2_share_percent_dec_2024])
+```
 
-- bar chart: average income per taxpayer
-- bar chart: unemployment share
-- bar chart: SGB II share
-- scatter plot: average income vs. SGB II share
-- table with conditional formatting
+```DAX
+Selected District Private Cars per 1000 Jan 2025 =
+SELECTEDVALUE(DistrictProfiles[private_cars_per_1000_jan_2025])
+```
 
-Important note:
+### Explicit district-distribution measures
 
-This page must be described as descriptive analysis only. It must not imply causal relationships.
+Where a summary of the 14 districts is useful, use an explicitly named median rather than implying an overall population statistic:
 
-### 3. Mobility Indicators
+```DAX
+Median District Unemployment Share Dec 2024 =
+MEDIAN(DistrictProfiles[unemployment_share_percent_dec_2024])
+```
 
-Purpose:
+```DAX
+Median District SGB II Share Dec 2024 =
+MEDIAN(DistrictProfiles[sgb2_share_percent_dec_2024])
+```
 
-Show private car ownership and electric car counts across districts.
+```DAX
+Median District Income per Taxpayer 2021 =
+MEDIAN(DistrictProfiles[avg_income_per_taxpayer_2021_eur])
+```
 
-Possible visuals:
+These are unweighted district medians, not borough-wide rates or averages.
 
-- bar chart: private cars per 1,000 residents
-- bar chart: electric cars
-- scatter plot: population density vs. private cars per 1,000 residents
-- table: district, density, private cars per 1,000 residents, electric cars
+## First Report Page
 
-### 4. Interpretation and Limitations
+The initial implementation should use one page:
 
-Purpose:
+- [`reports/power-bi/altona-overview-page.md`](../reports/power-bi/altona-overview-page.md)
 
-Document the limits of the dataset directly inside the report.
+The page combines additive overview measures with district comparisons while keeping source dates visible.
 
-Possible content:
+## Visual and Interaction Principles
 
-- scope: Altona only
-- small number of observations
-- different reporting dates for indicators
-- descriptive analysis only
-- no causal modelling
-- no full Hamburg-wide comparison yet
+- use a district slicer only where it adds analytical value
+- keep the page readable at standard laptop resolution
+- show units and reporting periods in titles
+- avoid red/green semantics unless a real threshold is defined
+- do not label descriptive correlations as drivers or causes
+- retain source and limitation notes on the page
+- avoid decorative gauges and duplicated KPIs
 
-## Planned Dashboard Questions
+## File Handling
 
-The first dashboard should help answer simple descriptive questions:
+A stable local report may later be documented under:
 
-- Which Altona districts have the highest and lowest population?
-- Which districts have the highest population density?
-- How do income, unemployment and SGB II shares differ across districts?
-- Which districts have high or low private car ownership?
-- Where are electric cars most common in absolute numbers?
-- Which indicators require careful interpretation because of different reporting dates?
+```text
+reports/power-bi/
+├── altona-overview-page.md
+├── measures.md
+└── screenshots/
+    └── altona-overview.png
+```
 
-## Design Principles
-
-The first report should stay simple:
-
-- no unnecessary visuals
-- clear page titles
-- consistent number formats
-- no overloaded color palette
-- visible source and limitation notes
-- focus on readability over visual effects
-
-## File Handling Plan
-
-A later Power BI version may use this folder structure:
-
-    reports/power-bi/
-
-Possible future files:
-
-    reports/power-bi/screenshots/
-    reports/power-bi/dashboard-notes.md
-
-The actual Power BI file may be kept outside the repository if file size or binary versioning becomes inconvenient. In that case, the repository should document the report using screenshots and notes instead of relying on a binary .pbix file.
-
-## Current Status
-
-Status:
-
-    Planned
-
-The Python analysis, findings report, data dictionary and notebook are already present. The next step is to build a first Power BI report based on the processed CSV dataset.
+A `.pbix` file can remain outside version control if binary size or reviewability becomes inconvenient. A public screenshot and documented measures should be added only after the report is stable and reviewed for source, aggregation and privacy issues.
